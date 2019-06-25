@@ -1,21 +1,30 @@
 ## build a restful api using serverless framework
-#### with AWS lambda, AWS api gateway, AWS dynamoDB
+#### with mongoDB, mongoose, auth0
 
 ## setup
+```bash
+# install mongodb
+brew install mongodb
+
+# start service
+brew services start mongodb
+
+# ON mongoDB
+mongod
+
+# connect mongoDB
+mongo
+
+# create collection
+use FirstCollection
+```
+
 ```bash
 npm i
 ```
 
 ```bash
-sls dynamodb install
-```
-
-```bash
-cp .env.dist .env
-```
-
-```bash
-# set you are auth0 client id
+# set you are auth0 client id and mongoDB url
 cp secrets.json.dist secrets.json
 ```
 
@@ -51,6 +60,3 @@ npm run deploy
 # prod
 npm run deploy prod
 ```
-
-## dynamo db
-view `serverless.yaml`, `db.js`
