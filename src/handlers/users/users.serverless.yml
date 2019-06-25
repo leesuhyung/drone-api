@@ -1,0 +1,33 @@
+userList:
+  handler: src/handlers/users/list.handler
+  events:
+    - http: get /users
+
+userGet:
+  handler: src/handlers/users/get.handler
+  events:
+    - http: get /users/{id}
+
+userAdd:
+  handler: src/handlers/users/add.handler
+  events:
+    - http:
+        path: /users
+        method: post
+#        authorizer: auth
+
+userUpdate:
+  handler: src/handlers/users/update.handler
+  events:
+    - http:
+        path: /users/{id}
+        method: put
+#        authorizer: auth
+
+userDelete:
+  handler: src/handlers/users/delete.handler
+  events:
+    - http:
+        path: /users/{id}
+        method: delete
+#        authorizer: auth

@@ -1,0 +1,28 @@
+{
+  "name": "drone-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "deploy prod": "sls deploy --aws-profile drone-api --stage prod",
+    "deploy": "sls deploy --aws-profile drone-api",
+    "package": "sls package"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "^2.463.0",
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "lodash": "^4.17.11",
+    "mongoose": "^5.6.1",
+    "serverless-http": "^2.0.2",
+    "uuid": "^3.3.2"
+  },
+  "devDependencies": {
+    "jest": "^24.8.0",
+    "serverless-offline": "^4.10.6"
+  }
+}
