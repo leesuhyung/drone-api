@@ -8,7 +8,9 @@ class BaseRepository {
     }
 
     async connectDB() {
+        // todo: You can not `mongoose.connect()` multiple times while connected. 해결
         if (this.isConnected) {
+            console.log('isConnected');
             return Promise.resolve();
         }
 
