@@ -7,6 +7,7 @@ exports.handler = async (event, context, callback) => {
     const {id} = event.pathParameters;
 
     try {
+        await repository.connect();
         return ok(await repository.get(id));
     } catch (e) {
         return callback(null, { statusCode: 404, body: JSON.stringify(e) });

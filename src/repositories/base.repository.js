@@ -3,23 +3,14 @@ const mongoose = require('mongoose');
 class BaseRepository {
     constructor(model) {
         this.model = model;
-        this.isConnected = false;
-        this.connectDB();
     }
 
-    async connectDB() {
-        // todo: You can not `mongoose.connect()` multiple times while connected. 해결
-        if (this.isConnected) {
-            console.log('isConnected');
+    async connect() {
+        if (mongoose.connection.readyState === 1) {
             return Promise.resolve();
         }
 
-        try {
-            await mongoose.connect(process.env.MONGODB_URL);
-            this.isConnected = true;
-        } catch (e) {
-            console.log(e);
-        }
+        return await mongoose.connect(process.env.MONGODB_URL);
     }
 
     async post(item) {

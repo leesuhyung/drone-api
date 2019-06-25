@@ -7,6 +7,7 @@ exports.handler = async (event, context, callback) => {
     const {id} = event.pathParameters;
 
     try {
+        await repository.connect();
         await repository.delete(id);
         return noContent();
     } catch (e) {

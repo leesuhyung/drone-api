@@ -5,6 +5,7 @@ const ok = withStatusCode(200, JSON.stringify);
 
 exports.handler = async (event, context, callback) => {
     try {
+        await repository.connect();
         return ok(await repository.list());
     } catch (e) {
         return callback(null, { statusCode: 404, body: JSON.stringify(e) });

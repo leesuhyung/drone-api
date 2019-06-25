@@ -9,6 +9,7 @@ exports.handler = async (event, context, callback) => {
     let user = parseJson(body);
 
     try {
+        await repository.connect();
         return ok(await repository.post(user));
     } catch (e) {
         return callback(null, { statusCode: 403, body: JSON.stringify(e) });
