@@ -14,7 +14,17 @@ const schema = new mongoose.Schema({
         required: true,
         unique: true,
     },
-    contact: String,
+    contact: {
+        battleCode: {
+            type: String
+        },
+        kakaoId: {
+            type: String
+        },
+        phone: {
+            type: String
+        },
+    },
     tier: {
         type: String,
         required: true,

@@ -21,8 +21,8 @@ class BaseRepository {
         return await this.model.findById(id);
     }
 
-    async list() {
-        return await this.model.find();
+    async list(params) {
+        return await this.model.find(params);
     }
 
     async delete(id) {
