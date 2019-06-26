@@ -14,7 +14,7 @@ userAdd:
     - http:
         path: /users
         method: post
-#        authorizer: auth
+        authorizer: auth
 
 userUpdate:
   handler: src/handlers/users/handler.update
@@ -22,7 +22,7 @@ userUpdate:
     - http:
         path: /users/{id}
         method: put
-#        authorizer: auth
+        authorizer: auth
 
 userDelete:
   handler: src/handlers/users/handler.delete
@@ -30,4 +30,4 @@ userDelete:
     - http:
         path: /users/{id}
         method: delete
-#        authorizer: auth
+        authorizer: auth

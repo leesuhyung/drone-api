@@ -54,6 +54,7 @@ package:
 functions:
   - '${file(src/handlers/auth/auth.serverless.yml)}'
   - '${file(src/handlers/users/users.serverless.yml)}'
+  - '${file(src/handlers/results/results.serverless.yml)}'
 
 plugins:
   - serverless-offline
