@@ -1,8 +1,14 @@
 const mongoose = require('mongoose');
+require('../models/User');
+require('../models/Result');
 
 class BaseRepository {
-    constructor(model) {
-        this.model = model;
+
+    constructor() {
+    }
+
+    setModel(model) {
+        this.model = mongoose.models[model];
     }
 
     async connect() {
