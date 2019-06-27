@@ -1,0 +1,25 @@
+resultList:
+  handler: src/handlers/results/handler.list
+  events:
+    - http: get /results
+
+resultGet:
+  handler: src/handlers/results/handler.get
+  events:
+    - http: get /results/{id}
+
+resultAdd:
+  handler: src/handlers/results/handler.add
+  events:
+    - http:
+        path: /results
+        method: post
+#        authorizer: auth
+
+resultDelete:
+  handler: src/handlers/results/handler.delete
+  events:
+    - http:
+        path: /results/{id}
+        method: delete
+#        authorizer: auth

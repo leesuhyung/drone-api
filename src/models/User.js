@@ -15,15 +15,9 @@ const schema = new mongoose.Schema({
         unique: true,
     },
     contact: {
-        battleCode: {
-            type: String
-        },
-        kakaoId: {
-            type: String
-        },
-        phone: {
-            type: String
-        },
+        battleCode: {type: String},
+        kakaoId: {type: String},
+        phone: {type: String},
     },
     tier: {
         type: String,
@@ -40,7 +34,7 @@ const schema = new mongoose.Schema({
     },
     createdAt: {
         type: Date,
-        default: new Date,
+        default: Date.now,
     }
 });
 
