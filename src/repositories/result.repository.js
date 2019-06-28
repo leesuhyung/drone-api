@@ -7,8 +7,7 @@ class ResultRepository extends BaseRepository {
     }
 
     async list(params) {
-        return await this.model.find(params)
-            .populate('loser.user');
+        return await this.model.find(params).deepPopulate('loser winner creator');
     }
 }
 

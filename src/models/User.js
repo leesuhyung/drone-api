@@ -35,7 +35,15 @@ const schema = new mongoose.Schema({
     createdAt: {
         type: Date,
         default: Date.now,
+    },
+    elo: {
+        type: Number,
     }
 });
-
+schema.pre('save', function (next) {
+    if (!this.elo) {
+        this.elo = 1000;
+    }
+    next();
+});
 module.exports = mongoose.models.User || mongoose.model('User', schema);
