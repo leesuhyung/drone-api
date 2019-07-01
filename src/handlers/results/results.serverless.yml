@@ -14,7 +14,7 @@ resultAdd:
     - http:
         path: /results
         method: post
-#        authorizer: auth
+        authorizer: auth
 
 resultDelete:
   handler: src/handlers/results/handler.delete
@@ -22,4 +22,4 @@ resultDelete:
     - http:
         path: /results/{id}
         method: delete
-#        authorizer: auth
+        authorizer: auth

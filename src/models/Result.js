@@ -44,7 +44,7 @@ const schema = new mongoose.Schema({
 });
 
 schema.plugin(deepPopulate);
-schema.pre('save', async function() { // save 직전 실행 미들웨어.
+schema.pre('save', async function () { // save 직전 실행 미들웨어.
     const self = this;
     const K = 10;
     const user = mongoose.model('User');
@@ -59,7 +59,7 @@ schema.pre('save', async function() { // save 직전 실행 미들웨어.
             if (winnerElo === loserElo) {
                 self.elo = 5;
             } else {
-                self.elo = K * (1 - (Math.round((1 / (1+(Math.pow(10, (loserElo - winnerElo) / 400) ))) * 10) / 10));
+                self.elo = K * (1 - (Math.round((1 / (1 + (Math.pow(10, (loserElo - winnerElo) / 400)))) * 10) / 10));
             }
 
             return Promise.resolve();
@@ -71,41 +71,20 @@ schema.pre('save', async function() { // save 직전 실행 미들웨어.
     if (this.isNew) {
         await setElo();
     }
-
-    /*
-    승리: 이전 점수 + (기준 점수)×(1 - 내 예상 승률)
-        내 예상 승률: (Math.round((1 / (1+(Math.pow(10, (상대방elo - 내elo) / 400) ))) * 1000) / 10);
-    패배: 이전 점수 + (기준 점수)×(0 - 내 예상 승률)
-        내 예상 승률: (Math.round((1 / (1+(Math.pow(10, (상대방elo - 내elo) / 400) ))) * 1000) / 10);
-    여기서 상수 10은 임의의 K 값. (10으로 고정)
-
-    예)
-    A 의 현재 ELO = 1023 => 기대승률 44.4%
-    B 의 현재 ELO = 1062 => 기대승률 55.6%
-
-    A승리: 이전 점수 + (기준 점수K)×(1 - 내 예상 승률)
-        => 1023 + (10)*(1-0.444)
-        => 1023 + 5.56
-        => 1028.56
-
-    A패배: 이전 점수 + (기준 점수K)×(0 - 내 예상 승률)
-        => 1023 + (10)*(0-0.444)
-        => 1023 + (-4.44))
-        => 1018.56
-
-    B승리: 이전 점수 + (기준 점수K)×(1 - 내 예상 승률)
-        => 1062 + (10)*(1-0.556)
-        => 1062 + 4.44
-        => 1066.44
-
-    B패배: 이전 점수 + (기준 점수K)×(0 - 내 예상 승률)
-        => 1062 + (10)*(0-0.556)
-        => 1062 + (-5.56))
-        => 1056.44
-     */
-
 });
+schema.post('save', async function (doc) {
+    const user = mongoose.model('User');
 
-// todo: result post 이후 생성된 result.elo 값으로 winner, loser 유저 elo 값 수정.
+    async function setElo() {
+        try {
+            await user.findByIdAndUpdate(doc.winner, {$inc: {elo: doc.elo}});
+            await user.findByIdAndUpdate(doc.loser, {$inc: {elo: doc.elo * (-1)}});
+            return Promise.resolve();
+        } catch (e) {
+            return Promise.reject(e);
+        }
+    }
 
+    await setElo();
+});
 module.exports = mongoose.models.Result || mongoose.model('Result', schema);
