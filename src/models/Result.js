@@ -4,9 +4,9 @@ let deepPopulate = require('mongoose-deep-populate')(mongoose);
 const schema = new mongoose.Schema({
     set: {
         type: {},
-        total: {type: Number},
-        current: {type: Number},
-        default: null,
+        single: {type: Boolean, default: true},
+        total: {type: Number, default: 0},
+        current: {type: Number, default: 0},
     },
     winner: {
         type: 'ObjectId',
@@ -34,8 +34,8 @@ const schema = new mongoose.Schema({
         required: true,
     },
     resultedAt: {
-        type: Date,
-        default: Date.now,
+        type: String,
+        required: true,
     },
     createdAt: {
         type: Date,
