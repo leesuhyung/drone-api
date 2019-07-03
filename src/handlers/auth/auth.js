@@ -28,14 +28,14 @@ const generatePolicy = (principalId, effect, resource) => {
 
 exports.handler = async (event, context, callback) => {
     if (!event.authorizationToken) {
-        return callback('Unauthorized');
+        return callback('Unauthorized: Token not exist');
     }
 
     const tokenParts = event.authorizationToken.split(' ');
     const tokenValue = tokenParts[1];
 
     if (!(tokenParts[0].toLowerCase() === 'bearer' && tokenValue)) {
-        return callback('Unauthorized');
+        return callback('Unauthorized: word not match');
     }
     const options = {
         audience: AUTH0_CLIENT_ID,
@@ -44,12 +44,12 @@ exports.handler = async (event, context, callback) => {
     try {
         jwt.verify(tokenValue, AUTH0_CLIENT_PUBLIC_KEY, options, (verifyError, decoded) => {
             if (verifyError) {
-                return callback('Unauthorized');
+                return callback('Unauthorized: verifyError');
             }
             // is custom authorizer function
             return callback(null, generatePolicy(decoded.sub, 'Allow', event.methodArn));
         });
     } catch (err) {
-        return callback('Unauthorized');
+        return callback('Unauthorized: catchError');
     }
 };
