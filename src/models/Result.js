@@ -4,7 +4,7 @@ let deepPopulate = require('mongoose-deep-populate')(mongoose);
 const schema = new mongoose.Schema({
     set: {
         type: {},
-        single: {type: Boolean, default: true},
+        isSet: {type: Boolean, default: false},
         total: {type: Number, default: 0},
         current: {type: Number, default: 0},
     },
