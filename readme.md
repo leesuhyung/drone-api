@@ -40,10 +40,26 @@ scan endpoint
 sls info
 ```
 
+serverless start in localhost
 ```bash
 # http://localhost:3000
 # if 8000 port already in use - kill -9 $(lsof -i TCP:8000| grep LISTEN | awk '{print $2}')
 sls offline start
+```
+
+create model
+```bash
+# The generated model must be required on the base.repository.js
+touch /src/models/ExampleModel.js
+```
+
+create function
+```bash
+touch /src/handlers/example/example.serverless.yml
+
+# serverless.yml
+functions:
+  - '${file(src/handlers/example/example.serverless.yml)}'
 ```
 
 ## deploy

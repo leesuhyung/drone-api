@@ -1,0 +1,20 @@
+mapList:
+  handler: src/handlers/maps/handler.list
+  events:
+    - http: get /maps
+
+mapAdd:
+  handler: src/handlers/maps/handler.add
+  events:
+    - http:
+        path: /maps
+        method: post
+        authorizer: auth
+
+mapDelete:
+  handler: src/handlers/maps/handler.delete
+  events:
+    - http:
+        path: /maps/{id}
+        method: delete
+        authorizer: auth

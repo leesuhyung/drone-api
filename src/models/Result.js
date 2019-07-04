@@ -22,7 +22,8 @@ const schema = new mongoose.Schema({
         type: Number,
     },
     map: {
-        type: String,
+        type: 'ObjectId',
+        ref: 'Map',
         required: true,
     },
     memo: {

@@ -5,7 +5,6 @@ class UserRepository extends BaseRepository {
         super();
         this.setModel('User');
     }
-
 }
 
 exports.UserRepository = UserRepository;

@@ -38,7 +38,6 @@ resources:
 package:
   # excludes are added first
   exclude:
-    - seed/**
     - coverage/**
     - .editorconfig
     - .gitignore
@@ -55,6 +54,7 @@ functions:
   - '${file(src/handlers/auth/auth.serverless.yml)}'
   - '${file(src/handlers/users/users.serverless.yml)}'
   - '${file(src/handlers/results/results.serverless.yml)}'
+  - '${file(src/handlers/maps/maps.serverless.yml)}'
 
 plugins:
   - serverless-offline
