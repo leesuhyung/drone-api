@@ -6,8 +6,8 @@ class ResultRepository extends BaseRepository {
         this.setModel('Result');
     }
 
-    async list(params) {
-        return await this.model.find(params).deepPopulate('loser winner creator map');
+    async list(filters) {
+        return await this.model.find(filters).deepPopulate('loser winner creator map');
     }
 
     async get(id) {
