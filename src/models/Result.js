@@ -3,7 +3,6 @@ let deepPopulate = require('mongoose-deep-populate')(mongoose);
 
 const schema = new mongoose.Schema({
     set: {
-        type: {},
         isSet: {type: Boolean, default: false},
         total: {type: Number, default: 0},
         current: {type: Number, default: 0},
@@ -13,13 +12,21 @@ const schema = new mongoose.Schema({
         ref: 'User',
         required: true,
     },
+    winnerData: {
+        lastElo: {type: Number},
+        tier: {type: String, enum: ['challenger', 'major', 'minor', 'triple']}
+    },
     loser: {
         type: 'ObjectId',
         ref: 'User',
         required: true,
     },
-    elo: {
-        type: Number,
+    loserData: {
+        lastElo: {type: Number},
+        tier: {type: String, enum: ['challenger', 'major', 'minor', 'triple']}
+    },
+    occurElo: {
+        type: Number
     },
     map: {
         type: 'ObjectId',
@@ -52,16 +59,19 @@ schema.pre('save', async function () { // save 직전 실행 미들웨어.
 
     async function setElo() {
         try {
-            let winnerElo = await user.findById(self.winner, '-_id elo')
-                .then((user) => user.elo);
-            let loserElo = await user.findById(self.loser, '-_id elo')
-                .then((user) => user.elo);
+            let winner = await user.findById(self.winner, 'tier elo');
+            let loser = await user.findById(self.loser, 'tier elo');
 
-            if (winnerElo === loserElo) {
-                self.elo = 5;
+            if (winner.elo === loser.elo) {
+                self.occurElo = 5;
             } else {
-                self.elo = K * (1 - (Math.round((1 / (1 + (Math.pow(10, (loserElo - winnerElo) / 400)))) * 10) / 10));
+                self.occurElo = K * (1 - (Math.round((1 / (1 + (Math.pow(10, (loser.elo - winner.elo) / 400)))) * 10) / 10));
             }
+
+            self.winnerData.lastElo = winner.elo;
+            self.loserData.lastElo = loser.elo;
+            self.winnerData.tier = winner.tier;
+            self.loserData.tier = loser.tier;
 
             return Promise.resolve();
         } catch (e) {
@@ -78,8 +88,8 @@ schema.post('save', async function (doc) {
 
     async function setElo() {
         try {
-            await user.findByIdAndUpdate(doc.winner, {$inc: {elo: doc.elo}});
-            await user.findByIdAndUpdate(doc.loser, {$inc: {elo: doc.elo * (-1)}});
+            await user.findByIdAndUpdate(doc.winner, {$inc: {elo: doc.occurElo}});
+            await user.findByIdAndUpdate(doc.loser, {$inc: {elo: doc.occurElo * (-1)}});
             return Promise.resolve();
         } catch (e) {
             return Promise.reject(e);

@@ -17,8 +17,6 @@ exports.list = async (event, context, callback) => {
         $and: [],
     };
 
-    console.log(params);
-
     if (params) {
         if (params.user) {
             filters.$and.push({
@@ -46,17 +44,16 @@ exports.list = async (event, context, callback) => {
 
         if (params.tier) {
             const tier = Object.keys(JSON.parse(params.tier)).map(k => k);
-            // todo: ref User 참조방법??
             filters.$and.push({
                 $or: [
-                    {'winner.tier': {$in: tier}}
+                    {'winnerData.tier': {$in: tier}},
+                    {'loserData.tier': {$in: tier}}
                 ]
             })
         }
     }
 
     compactObject(filters);
-    console.log(filters);
 
     try {
         await repository.connect();
