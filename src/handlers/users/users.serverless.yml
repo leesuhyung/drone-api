@@ -31,3 +31,9 @@ userDelete:
         path: /users/{id}
         method: delete
         authorizer: auth
+
+userRanking:
+  handler: src/handlers/users/handler.ranking
+  events:
+    - http: get /users-ranking
+

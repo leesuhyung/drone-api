@@ -20,6 +20,19 @@ exports.list = async (event, context, callback) => {
     }
 };
 
+exports.ranking = async (event, context, callback) => {
+    const params = event.queryStringParameters;
+    // await repository.ranking();
+    // return success();
+
+    try {
+        await repository.connect();
+        return success(await repository.ranking());
+    } catch (e) {
+        return callback(null, { statusCode: 404, body: JSON.stringify(e) });
+    }
+};
+
 exports.get = async (event, context, callback) => {
     const {id} = event.pathParameters;
 
