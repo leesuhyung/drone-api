@@ -11,7 +11,6 @@ class UserRepository extends BaseRepository {
         const Result = mongoose.models['Result'];
         // const users = await this.model.find();
         const users = await this.model.aggregate([
-            // todo: 1게임이라도 있는 유저를 출력
             {
                 $sort: {
                     'elo': -1
@@ -126,8 +125,14 @@ class UserRepository extends BaseRepository {
                             loseVsZerg: 0,
                             loseVsProtoss: 0,
                             loseVsTerran: 0,
+
                         }
-                    }
+                    },
+                    {
+                        $match: {
+                            'total': {$ne: 0}
+                        }
+                    },
                 ]).then(items => items[0]);
 
             return user;
