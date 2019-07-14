@@ -1,4 +1,4 @@
-userList:
+usersList:
   handler: src/handlers/users/handler.list
   events:
     - http: get /users
@@ -32,8 +32,13 @@ userDelete:
         method: delete
         authorizer: auth
 
-userRanking:
-  handler: src/handlers/users/handler.ranking
+usersRank:
+  handler: src/handlers/users/handler.rank
   events:
-    - http: get /users-ranking
+    - http: get /users-rank
+
+userRank:
+  handler: src/handlers/users/handler.getRank
+  events:
+    - http: get /users/{id}/rank
 
