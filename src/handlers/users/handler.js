@@ -36,11 +36,10 @@ exports.rank = async (event, context, callback) => {
 
 exports.getRank = async (event, context, callback) => {
     const {id} = event.pathParameters;
-    const params = event.queryStringParameters;
 
     try {
         await repository.connect();
-        return success(await repository.getRank(id, params));
+        return success(await repository.getRank(id));
     } catch (e) {
         return callback(null, { statusCode: 404, body: JSON.stringify(e) });
     }

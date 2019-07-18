@@ -44,6 +44,7 @@ class UserRepository extends BaseRepository {
         ]);
 
         return await Promise.all(users.map(async (user) => {
+            user.rank++;
             user.resultData = await Result.aggregate([
                     {
                         $lookup: {
@@ -96,24 +97,15 @@ class UserRepository extends BaseRepository {
                             loseCount: 0,
                         }
                     },
-                    /*{
-                        $match: {
-                            'total': {$ne: 0}
-                        }
-                    },*/
                 ]).then(items => items[0]);
 
             return user;
         }))
     }
 
-    async getRank(id, params) {
-        let filter = params || {};
+    async getRank(id) {
         let idToSearch = mongoose.Types.ObjectId(id);
         const user = await this.model.aggregate([
-            {
-                $match: filter
-            },
             {
                 $sort: {
                     'elo': -1
@@ -147,6 +139,55 @@ class UserRepository extends BaseRepository {
                 }
             },
         ]).then(items => items[0]);
+
+        user.tierRank = await this.model.aggregate([
+            {
+                $match: {
+                    tier: user.tier
+                }
+            },
+            {
+                $sort: {
+                    'elo': -1
+                }
+            },
+            {
+                $group: {
+                    _id: {},
+                    items: {$push: '$$ROOT'}
+                }
+            },
+            {
+                $unwind: {
+                    path: '$items',
+                    includeArrayIndex: 'items.rank'
+                }
+            },
+            {
+                $replaceRoot: {
+                    newRoot: '$items'
+                }
+            },
+            {
+                $sort: {
+                    'rank': 1
+                }
+            },
+            {
+                $match: {
+                    '_id': user._id
+                }
+            },
+            {
+                $project: {
+                    _id: 0,
+                    rank: 1
+                }
+            },
+        ]).then(items => items[0].rank);
+
+        user.rank++;
+        user.tierRank++;
 
         user.resultData = await Result.aggregate([
             {
