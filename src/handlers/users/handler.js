@@ -22,9 +22,6 @@ exports.list = async (event, context, callback) => {
 
 exports.rank = async (event, context, callback) => {
     const params = event.queryStringParameters;
-    // await repository.ranking();
-    // return success();
-    console.log(params);
 
     try {
         await repository.connect();
@@ -52,8 +49,19 @@ exports.get = async (event, context, callback) => {
         await repository.connect();
         return success(await repository.get(id));
     } catch (e) {
-        return callback(null, { statusCode: 404, body: JSON.stringify(e) });
+        return callback(null, {statusCode: 403, body: JSON.stringify(e)});
     }
+
+    // todo: serverless 에러 프론트로 보내기
+    /*const promise = new Promise(async (resolve, reject) => {
+        try {
+            await repository.connect();
+            resolve(success(await repository.get(id)));
+        } catch (e) {
+            reject(e);
+        }
+    });
+    return promise*/
 };
 
 exports.add = async (event, context, callback) => {
