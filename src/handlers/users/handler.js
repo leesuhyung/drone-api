@@ -45,23 +45,23 @@ exports.getRank = async (event, context, callback) => {
 exports.get = async (event, context, callback) => {
     const {id} = event.pathParameters;
 
-    try {
+    /*try {
         await repository.connect();
         return success(await repository.get(id));
     } catch (e) {
         return callback(null, {statusCode: 403, body: JSON.stringify(e)});
-    }
+    }*/
 
     // todo: serverless 에러 프론트로 보내기
-    /*const promise = new Promise(async (resolve, reject) => {
+    const promise = new Promise(async (resolve, reject) => {
         try {
             await repository.connect();
             resolve(success(await repository.get(id)));
         } catch (e) {
-            reject(e);
+            reject(JSON.stringify(e));
         }
     });
-    return promise*/
+    return promise
 };
 
 exports.add = async (event, context, callback) => {
