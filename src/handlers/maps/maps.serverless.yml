@@ -1,7 +1,10 @@
 mapList:
   handler: src/handlers/maps/handler.list
   events:
-    - http: get /maps
+    - http:
+        path: /maps
+        method: get
+        cors: true
 
 mapAdd:
   handler: src/handlers/maps/handler.add
@@ -9,6 +12,7 @@ mapAdd:
     - http:
         path: /maps
         method: post
+        cors: true
         authorizer: auth
 
 mapDelete:
@@ -17,4 +21,5 @@ mapDelete:
     - http:
         path: /maps/{id}
         method: delete
+        cors: true
         authorizer: auth

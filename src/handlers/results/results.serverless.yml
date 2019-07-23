@@ -1,12 +1,18 @@
 resultList:
   handler: src/handlers/results/handler.list
   events:
-    - http: get /results
+    - http:
+        path: /results
+        method: get
+        cors: true
 
 resultGet:
   handler: src/handlers/results/handler.get
   events:
-    - http: get /results/{id}
+    - http:
+        path: /results/{id}
+        method: get
+        cors: true
 
 resultAdd:
   handler: src/handlers/results/handler.add
@@ -14,6 +20,7 @@ resultAdd:
     - http:
         path: /results
         method: post
+        cors: true
         authorizer: auth
 
 resultDelete:
@@ -22,4 +29,5 @@ resultDelete:
     - http:
         path: /results/{id}
         method: delete
+        cors: true
         authorizer: auth

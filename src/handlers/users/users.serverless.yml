@@ -1,12 +1,18 @@
 usersList:
   handler: src/handlers/users/handler.list
   events:
-    - http: get /users
+    - http:
+        path: /users
+        method: get
+        cors: true
 
 userGet:
   handler: src/handlers/users/handler.get
   events:
-    - http: get /users/{id}
+    - http:
+        path: /users/{id}
+        method: get
+        cors: true
 
 userAdd:
   handler: src/handlers/users/handler.add
@@ -14,6 +20,7 @@ userAdd:
     - http:
         path: /users
         method: post
+        cors: true
         authorizer: auth
 
 userUpdate:
@@ -22,6 +29,7 @@ userUpdate:
     - http:
         path: /users/{id}
         method: put
+        cors: true
         authorizer: auth
 
 userDelete:
@@ -30,15 +38,22 @@ userDelete:
     - http:
         path: /users/{id}
         method: delete
+        cors: true
         authorizer: auth
 
 usersRank:
   handler: src/handlers/users/handler.rank
   events:
-    - http: get /users-rank
+    - http:
+        path: /users-rank
+        method: get
+        cors: true
 
 userRank:
   handler: src/handlers/users/handler.getRank
   events:
-    - http: get /users/{id}/rank
+    - http:
+        path: /users/{id}/rank
+        method: get
+        cors: true
 
