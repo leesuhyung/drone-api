@@ -7,73 +7,73 @@ const {UserRepository} = require('../../repositories/user.repository');
 const repository = new UserRepository();
 const success = withStatusCode(200, JSON.stringify);
 const noContent = withStatusCode(204);
+const failure = withStatusCode(500, JSON.stringify);
 const parseJson = parseWith(JSON.parse);
 
 exports.list = async (event, context, callback) => {
     const params = event.queryStringParameters;
 
-    try {
-        await repository.connect();
-        return success(await repository.list(params));
-    } catch (e) {
-        return callback(null, { statusCode: 404, body: JSON.stringify(e) });
-    }
+    return new Promise(async (resolve, reject) => {
+        try {
+            await repository.connect();
+            resolve(success(await repository.list(params)));
+        } catch (e) {
+            reject(callback(null, failure(e)));
+        }
+    });
 };
 
 exports.rank = async (event, context, callback) => {
     const params = event.queryStringParameters;
 
-    try {
-        await repository.connect();
-        return success(await repository.rank(params));
-    } catch (e) {
-        return callback(null, { statusCode: 404, body: JSON.stringify(e) });
-    }
+    return new Promise(async (resolve, reject) => {
+        try {
+            await repository.connect();
+            resolve(success(await repository.rank(params)));
+        } catch (e) {
+            reject(callback(null, failure(e)));
+        }
+    });
 };
 
 exports.getRank = async (event, context, callback) => {
     const {id} = event.pathParameters;
 
-    try {
-        await repository.connect();
-        return success(await repository.getRank(id));
-    } catch (e) {
-        return callback(null, { statusCode: 404, body: JSON.stringify(e) });
-    }
+    return new Promise(async (resolve, reject) => {
+        try {
+            await repository.connect();
+            resolve(success(await repository.getRank(id)));
+        } catch (e) {
+            reject(callback(null, failure(e)));
+        }
+    });
 };
 
 exports.get = async (event, context, callback) => {
     const {id} = event.pathParameters;
 
-    /*try {
-        await repository.connect();
-        return success(await repository.get(id));
-    } catch (e) {
-        return callback(null, {statusCode: 403, body: JSON.stringify(e)});
-    }*/
-
-    // todo: serverless 에러 프론트로 보내기
-    const promise = new Promise(async (resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
         try {
             await repository.connect();
             resolve(success(await repository.get(id)));
         } catch (e) {
-            reject(JSON.stringify(e));
+            reject(callback(null, failure(e)));
         }
     });
-    return promise
 };
 
 exports.add = async (event, context, callback) => {
     const {body} = event;
     let user = parseJson(body);
 
-    try {
-        await repository.connect();
-        return success(await repository.post(user));
-    } catch (e) {
-        return callback(null, {statusCode: 403, body: JSON.stringify(e)});
-    }
+    return new Promise(async (resolve, reject) => {
+        try {
+            await repository.connect();
+            resolve(success(await repository.post(user)));
+        } catch (e) {
+            reject(callback(null, failure(e)));
+        }
+    });
 };
 
 exports.update = async (event, context, callback) => {
@@ -82,22 +82,26 @@ exports.update = async (event, context, callback) => {
 
     const user = parseJson(body);
 
-    try {
-        await repository.connect();
-        return success(await repository.update(id, user));
-    } catch (e) {
-        return callback(null, {statusCode: 403, body: JSON.stringify(e)});
-    }
+    return new Promise(async (resolve, reject) => {
+        try {
+            await repository.connect();
+            resolve(success(await repository.update(id, user)));
+        } catch (e) {
+            reject(callback(null, failure(e)));
+        }
+    });
 };
 
 exports.delete = async (event, context, callback) => {
     const {id} = event.pathParameters;
 
-    try {
-        await repository.connect();
-        await repository.delete(id);
-        return noContent();
-    } catch (e) {
-        return callback(null, {statusCode: 400, body: JSON.stringify(e)});
-    }
+    return new Promise(async (resolve, reject) => {
+        try {
+            await repository.connect();
+            await repository.delete(id);
+            resolve(noContent());
+        } catch (e) {
+            reject(callback(null, failure(e)));
+        }
+    });
 };

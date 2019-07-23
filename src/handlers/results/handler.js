@@ -7,6 +7,7 @@ const {compactObject} = require('../../utils/compact-object.util');
 
 const repository = new ResultRepository();
 const success = withStatusCode(200, JSON.stringify);
+const failure = withStatusCode(500, JSON.stringify);
 const noContent = withStatusCode(204);
 const parseJson = parseWith(JSON.parse);
 
@@ -55,45 +56,53 @@ exports.list = async (event, context, callback) => {
 
     compactObject(filters);
 
-    try {
-        await repository.connect();
-        return success(await repository.list(filters));
-    } catch (e) {
-        return callback(null, {statusCode: 404, body: JSON.stringify(e)});
-    }
+    return new Promise(async (resolve, reject) => {
+        try {
+            await repository.connect();
+            resolve(success(await repository.list(filters)));
+        } catch (e) {
+            reject(callback(null, failure(e)));
+        }
+    });
 };
 
 exports.get = async (event, context, callback) => {
     const {id} = event.pathParameters;
 
-    try {
-        await repository.connect();
-        return success(await repository.get(id));
-    } catch (e) {
-        return callback(null, {statusCode: 404, body: JSON.stringify(e)});
-    }
+    return new Promise(async (resolve, reject) => {
+        try {
+            await repository.connect();
+            resolve(success(await repository.get(id)));
+        } catch (e) {
+            reject(callback(null, failure(e)));
+        }
+    });
 };
 
 exports.add = async (event, context, callback) => {
     const {body} = event;
     let result = parseJson(body);
 
-    try {
-        await repository.connect();
-        return success(await repository.post(result));
-    } catch (e) {
-        return callback(null, {statusCode: 403, body: JSON.stringify(e)});
-    }
+    return new Promise(async (resolve, reject) => {
+        try {
+            await repository.connect();
+            resolve(success(await repository.post(result)));
+        } catch (e) {
+            reject(callback(null, failure(e)));
+        }
+    });
 };
 
 exports.delete = async (event, context, callback) => {
     const {id} = event.pathParameters;
 
-    try {
-        await repository.connect();
-        await repository.delete(id);
-        return noContent();
-    } catch (e) {
-        return callback(null, {statusCode: 400, body: JSON.stringify(e)});
-    }
+    return new Promise(async (resolve, reject) => {
+        try {
+            await repository.connect();
+            await repository.delete(id);
+            resolve(noContent());
+        } catch (e) {
+            reject(callback(null, failure(e)));
+        }
+    });
 };
