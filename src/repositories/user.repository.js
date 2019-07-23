@@ -97,7 +97,16 @@ class UserRepository extends BaseRepository {
                             loseCount: 0,
                         }
                     },
-                ]).then(items => items[0]);
+                ]).then(items => {
+                    if (!items.length) {
+                        return {
+                            total: 0,
+                            win: 0,
+                            lose: 0
+                        }
+                    }
+                    return items[0]
+                });
 
             return user;
         }))
@@ -275,7 +284,26 @@ class UserRepository extends BaseRepository {
                     loseVsTerran: 0,
                 }
             },
-        ]).then(items => items[0]);
+        ]).then(items => {
+            if (!items.length) {
+                return {
+                    total: 0,
+                    win: {
+                        count: 0,
+                        vsZ: 0,
+                        vsP: 0,
+                        vsT: 0,
+                    },
+                    lose: {
+                        count: 0,
+                        vsZ: 0,
+                        vsP: 0,
+                        vsT: 0,
+                    }
+                }
+            }
+            return items[0]
+        });
 
         return user;
     }
