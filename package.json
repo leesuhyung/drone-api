@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "deploy prod": "sls deploy --aws-profile drone-api --stage prod",
+    "deploy prod": "serverless deploy --aws-profile drone-api --stage prod",
     "deploy": "sls deploy --aws-profile drone-api",
     "package": "sls package"
   },
