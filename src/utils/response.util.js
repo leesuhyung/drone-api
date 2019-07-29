@@ -12,6 +12,12 @@ const withStatusCode = (statusCode, formatter = null) => {
         };
 
         if (data) {
+            if (statusCode >= 200 && statusCode < 300) {
+                response.headers = {
+                    'Access-Control-Allow-Origin': '*',
+                    'Access-Control-Allow-Credentials': true,
+                }
+            }
             response.body = format(data);
         }
 
