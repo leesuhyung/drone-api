@@ -1,18 +1,18 @@
-## build a restful api using serverless framework
-#### with mongoDB, mongoose, auth0
+## [drone](https://github.com/navystyle/drone) project 의 api 입니다.
+serverless framework, mongoDB, mongoose, auth0
 
 ## setup
 ```bash
 # install mongodb
 brew install mongodb
 
-# start service
+# start local mongodb service
 brew services start mongodb
 
-# ON mongoDB
+# on local mongoDB
 mongod
 
-# connect mongoDB
+# connect local mongoDB
 mongo
 
 # create collection
@@ -74,5 +74,5 @@ sls config credentials --provider aws --key AKIAIOSFODNN7EXAMPLE --secret wJalrX
 npm run deploy
 
 # prod
-npm run deploy prod
+npm run deploy-prod
 ```
