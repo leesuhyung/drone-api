@@ -65,7 +65,8 @@ schema.pre('save', async function () { // save 직전 실행 미들웨어.
             if (winner.elo === loser.elo) {
                 self.occurElo = 5;
             } else {
-                self.occurElo = K * (1 - (Math.round((1 / (1 + (Math.pow(10, (loser.elo - winner.elo) / 400)))) * 10) / 10));
+                // self.occurElo = K * (1 - (Math.round((1 / (1 + (Math.pow(10, (loser.elo - winner.elo) / 400)))) * 10) / 10));
+                self.occurElo = K * (1 - (1 / (1 + (Math.pow(10, (loser.elo - winner.elo) / 400)))).toFixed(2));
             }
 
             self.winnerData.lastElo = winner.elo;
