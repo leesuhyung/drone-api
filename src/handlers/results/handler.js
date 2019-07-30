@@ -17,6 +17,8 @@ exports.list = async (event, context, callback) => {
         $or: [],
         $and: [],
     };
+    let page = params.page || 1;
+    let limit = params.limit || 3;
 
     if (params) {
         if (params.user) {
@@ -59,7 +61,7 @@ exports.list = async (event, context, callback) => {
     return new Promise(async (resolve, reject) => {
         try {
             await repository.connect();
-            resolve(success(await repository.list(filters)));
+            resolve(success(await repository.list(filters, page, limit)));
         } catch (e) {
             reject(callback(null, failure(e)));
         }

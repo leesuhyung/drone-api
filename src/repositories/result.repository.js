@@ -6,8 +6,20 @@ class ResultRepository extends BaseRepository {
         this.setModel('Result');
     }
 
-    async list(filters) {
-        return await this.model.find(filters).deepPopulate('loser winner creator map');
+    async list(filters, page, limit) {
+        return await this.model.countDocuments(filters).then(async count => {
+            const results = await this.model.find(filters)
+                .limit(parseInt(limit))
+                .skip((page - 1) * limit)
+                .sort('-createdAt')
+                .deepPopulate('loser winner creator map');
+
+            return {
+                total: count,
+                finish: count <= page * limit,
+                items: results,
+            }
+        });
     }
 
     async get(id) {
