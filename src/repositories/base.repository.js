@@ -17,7 +17,7 @@ class BaseRepository {
             return Promise.resolve();
         }
 
-        return await mongoose.connect(process.env.MONGODB_URL);
+        return await mongoose.connect(process.env.MONGODB_URL, {useNewUrlParser: true});
     }
 
     async post(item) {
