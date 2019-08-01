@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+mongoose.set('useCreateIndex', true);
 require('../models/User');
 require('../models/Result');
 require('../models/Map');
