@@ -65,6 +65,7 @@ exports.get = async (event, context, callback) => {
 exports.add = async (event, context, callback) => {
     const {body} = event;
     let user = parseJson(body);
+    delete user._id;
 
     return new Promise(async (resolve, reject) => {
         try {
