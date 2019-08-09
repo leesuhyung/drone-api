@@ -63,7 +63,7 @@ exports.list = async (event, context, callback) => {
             await repository.connect();
             resolve(success(await repository.list(filters, page, limit)));
         } catch (e) {
-            reject(callback(null, failure(e)));
+            resolve(failure(e));
         }
     });
 };
@@ -76,7 +76,7 @@ exports.get = async (event, context, callback) => {
             await repository.connect();
             resolve(success(await repository.get(id)));
         } catch (e) {
-            reject(callback(null, failure(e)));
+            resolve(failure(e));
         }
     });
 };
@@ -90,7 +90,7 @@ exports.add = async (event, context, callback) => {
             await repository.connect();
             resolve(success(await repository.post(result)));
         } catch (e) {
-            reject(callback(null, failure(e)));
+            resolve(failure(e));
         }
     });
 };
@@ -104,7 +104,7 @@ exports.delete = async (event, context, callback) => {
             await repository.delete(id);
             resolve(noContent());
         } catch (e) {
-            reject(callback(null, failure(e)));
+            resolve(failure(e));
         }
     });
 };

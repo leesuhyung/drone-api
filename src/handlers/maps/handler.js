@@ -18,7 +18,7 @@ exports.list = async (event, context, callback) => {
             await repository.connect();
             resolve(success(await repository.list(params)));
         } catch (e) {
-            reject(callback(null, failure(e)));
+            resolve(failure(e));
         }
     });
 };
@@ -32,7 +32,7 @@ exports.add = async (event, context, callback) => {
             await repository.connect();
             resolve(success(await repository.post(map)));
         } catch (e) {
-            reject(callback(null, failure(e)));
+            resolve(failure(e));
         }
     });
 };
@@ -46,7 +46,7 @@ exports.delete = async (event, context, callback) => {
             await repository.delete(id);
             resolve(noContent());
         } catch (e) {
-            reject(callback(null, failure(e)));
+            resolve(failure(e));
         }
     });
 };

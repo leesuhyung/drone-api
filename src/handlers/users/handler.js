@@ -18,7 +18,7 @@ exports.list = async (event, context, callback) => {
             await repository.connect();
             resolve(success(await repository.list(params)));
         } catch (e) {
-            reject(callback(null, failure(e)));
+            resolve(failure(e));
         }
     });
 };
@@ -31,7 +31,7 @@ exports.rank = async (event, context, callback) => {
             await repository.connect();
             resolve(success(await repository.rank(params)));
         } catch (e) {
-            reject(callback(null, failure(e)));
+            resolve(failure(e));
         }
     });
 };
@@ -44,7 +44,7 @@ exports.getRank = async (event, context, callback) => {
             await repository.connect();
             resolve(success(await repository.getRank(id)));
         } catch (e) {
-            reject(callback(null, failure(e)));
+            resolve(failure(e));
         }
     });
 };
@@ -57,7 +57,7 @@ exports.get = async (event, context, callback) => {
             await repository.connect();
             resolve(success(await repository.get(id)));
         } catch (e) {
-            reject(callback(null, failure(e)));
+            resolve(failure(e));
         }
     });
 };
@@ -71,7 +71,7 @@ exports.add = async (event, context, callback) => {
             await repository.connect();
             resolve(success(await repository.post(user)));
         } catch (e) {
-            reject(callback(null, failure(e)));
+            resolve(failure(e));
         }
     });
 };
@@ -87,7 +87,7 @@ exports.update = async (event, context, callback) => {
             await repository.connect();
             resolve(success(await repository.update(id, user)));
         } catch (e) {
-            reject(callback(null, failure(e)));
+            resolve(failure(e));
         }
     });
 };
@@ -101,7 +101,7 @@ exports.delete = async (event, context, callback) => {
             await repository.delete(id);
             resolve(noContent());
         } catch (e) {
-            reject(callback(null, failure(e)));
+            resolve(failure(e));
         }
     });
 };
