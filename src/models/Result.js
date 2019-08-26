@@ -99,4 +99,19 @@ schema.post('save', async function (doc) {
 
     await setElo();
 });
+schema.post('remove', async function (doc) {
+    const user = mongoose.model('User');
+
+    async function setElo() {
+        try {
+            await user.findByIdAndUpdate(doc.winner, {$inc: {elo: doc.occurElo * (-1)}});
+            await user.findByIdAndUpdate(doc.loser, {$inc: {elo: doc.occurElo}});
+            return Promise.resolve();
+        } catch (e) {
+            return Promise.reject(e);
+        }
+    }
+
+    await setElo();
+});
 module.exports = mongoose.models.Result || mongoose.model('Result', schema);

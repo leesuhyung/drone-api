@@ -25,7 +25,7 @@ npm i
 
 ```bash
 # set you are auth0 client id and mongoDB url
-cp secrets.json.dist secrets.json
+cp secrets.json.dist dev_secrets.json and prod_secrets.json
 ```
 
 ```bash

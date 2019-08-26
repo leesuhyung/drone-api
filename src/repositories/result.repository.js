@@ -25,6 +25,12 @@ class ResultRepository extends BaseRepository {
     async get(id) {
         return await this.model.findById(id).deepPopulate('loser winner creator map');
     }
+
+    async delete(id) {
+        return await this.model.findOne({_id: id}).then(async result => {
+            result.remove();
+        })
+    }
 }
 
 exports.ResultRepository = ResultRepository;

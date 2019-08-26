@@ -12,7 +12,8 @@
 .serverless/
 
 # environment
-secrets.json
+dev_secrets.json
+prod_secrets.json
 *.pem
 
 # tests
